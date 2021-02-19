@@ -52,7 +52,5 @@ apercu_velo=[]
 
 
 get_data(titles)
-print(len(title_velo))
 
-#définir nb de pages + cb de temps 
 
