@@ -33,6 +33,17 @@ WannerPicture = soup.select('#floatRightBox > div.js_box.clearfix > div.member_p
 
 WannerName = soup.select('#floatRightBox > div.js_box.clearfix > div.w_240 > h6 > a')
 
+
+# fichier excell
+import pandas as pd
+
+Annonce=pd.DataFrame({"Article":Article,"Prix":Prix,"link":link})
+
+Annonce.to_excel(r'C:/Users/Alioune Badara NDAO/Documents/Unistra/Semestre2/Programmation/projet.xlsx')
+
+
+
+
 WannerSex = soup.select('#floatRightBox > div.js_box.clearfix > div.member_pic > div')
 
 if WannerSex[0]['class'][0] == 'member_ico':
