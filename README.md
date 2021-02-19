@@ -2,4 +2,5 @@
 
 Bonjour machin 
  ghgh
-bla bla
+ 
+ ohlala le stage
