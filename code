@@ -1,7 +1,6 @@
 #IMPORTING LIBRARIES:
 
 from bs4 import BeautifulSoup
-from 
 import urllib3
 import re
 import urllib.request
@@ -55,4 +54,6 @@ all_links=re.findall(r'href=\"(.*?)"',str(link_velo))
 
 get_data(titles)
 
+Annonce=pd.DataFrame({"Article":title_velo,"Prix":price_velo,"link":all_links})
+Annonce.to_excel(r'C:/Users/candi/projet.xlsx')
 
