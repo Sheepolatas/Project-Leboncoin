@@ -1,0 +1,72 @@
+# import libraries
+from bs4 import BeautifulSoup
+import urllib3
+import re
+import time
+import numpy as np
+
+# url de la page
+
+urlpage="https://www.paruvendu.fr/annonces/velo/strasbourg/"
+
+# contenu html
+req = urllib3.PoolManager()
+res = req.request('GET', urlpage)
+soup = BeautifulSoup(res.data, 'html.parser')
+str(soup)[:2000]
+
+# recherche d'éléments HTML
+
+content = soup.find_all("div", class_="debarras-txtannonce")
+content[:3]
+
+# Fonction
+
+def get_page(urlpage,element ,html_class):
+
+    req = urllib3.PoolManager()
+    res = req.request('GET', urlpage)
+    soup = BeautifulSoup(res.data, 'html.parser')
+    
+    # Return elements that matched the html class in a list
+    content = soup.find_all(element ,class_= html_class)
+    
+    return content 
+
+content = get_page('https://www.paruvendu.fr/annonces/velo/strasbourg/','div','debarras-txtannonce')
+content
+
+# Netoyage et indesation
+
+Prix=re.findall("(.*?)€",str(content))
+Prix=[int(re.sub(" ","",prix)) for prix in Prix]
+Prix=np.array(Prix)
+Prix[:3]
+Prix=int.Prix
+len(Prix)
+
+np.arrange(Prix)
+
+
+Article = re.findall('<h3>(.*,?)\r',str(content))
+
+Article[:3]
+
+len(Article)
+
+Description=re.findall('<p>\r\n(.*?)\r\n',str(content))
+
+Description[:3]
+len(Description)
+
+link=urlpage  
+# DataFrame Pendas
+
+import pandas as pd
+
+Annonce=pd.DataFrame({"Article":Article,"Prix":Prix,"link":link})
+Annonce
+import csv
+Annonce.to_csv(r'C:/Users/Alioune Badara NDAO/Documents/Unistra/Semestre2/Programmation/projet.csv')
+import numpy as np
+Annonce.to_excel(r'C:/Users/Alioune Badara NDAO/Documents/Unistra/Semestre2/Programmation/projet.xlsx')
