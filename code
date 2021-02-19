@@ -51,7 +51,7 @@ title_velo=[]
 price_velo=[]
 link_velo=[]
 apercu_velo=[]
-
+all_links=re.findall(r'href=\"(.*?)"',str(link_velo))
 
 get_data(titles)
 
