@@ -2,11 +2,11 @@
 
 Order of the files:
 
-\n1 - Import
+1 - Import
 
-\n2 - Main functions
+2 - Main functions
 
-\n3 - Contenu code + envoi mail
+3 - Contenu code + envoi mail
 
 The purpose of our project is to scrap all bike offers costing less than 150 € from the French selling website www.paruvendu.fr .
 We lost some teeth in the battle, our code is not the most optimal one, but we made sure for it to be readable and understable the easiest we could.
