@@ -1,0 +1,62 @@
+titres=[]
+prix=[]
+liens=[]
+for nb_p in range(len(pages)):
+    response=requests.get(pages[nb_p])
+    soup=bs4.BeautifulSoup(response.text,'html.parser')
+    a_box=soup.find_all("a",{"class":"globann"})
+    p_box=soup.find_all("div",{"class":"debarras-priceannonce"})
+    time.sleep(random.randrange(1,5))
+    
+    for i in range(len(a_box)):
+        titres.append(a_box[i]['title'])
+        prix.append(''.join(filter(lambda i: i.isdigit(), p_box[i].get_text().strip())))
+        #prix.append(re.findall('(\d+.*?)\s€',str(p_box[i])))
+        #Remplir les cellules vides par un chiffre puis ajouter [0] derrière sinon Endex out of range'''
+        liens.append(a_box[i]['href'])
+
+table=pd.DataFrame({"Titres":titres,"Prix":prix,"Liens":liens})
+print(table.head())
+
+## Displays the filtered articles in a 2nd DataFrame:
+
+table_f=get_data_filtered(table)
+table_f
+
+
+
+
+######## Sending this 2nd Data Frame in a mail:
+
+##ENVOI DE MAIL
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+#Envoi d'un mail automatisé
+
+msg = MIMEMultipart()
+msg['From'] = 'miaou.test01@gmail.com'
+msg['To'] = 'miaou.test01@gmail.com'
+msg['Subject'] = 'Nouvelle annonce de vélo' 
+
+message = 'Bonjour. Il y a nouveau(x) vélo(s)',get_data_filtered(table)
+html = """\
+<html>
+  <head></head>
+  <body>
+    {0}
+  </body>
+</html>
+""".format(table_f.to_html())
+part1 = MIMEText(html, 'html')
+msg.attach(part1)
+
+mailserver = smtplib.SMTP('smtp.gmail.com', 587)
+mailserver.ehlo()
+mailserver.starttls()
+mailserver.ehlo()
+mailserver.login('miaou.test01@gmail.com', '#testing0')
+mailserver.sendmail('miaou.test01@gmail.com','yass.ramil67@gmail.com', msg.as_string())
+mailserver.quit()
