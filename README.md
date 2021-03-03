@@ -3,7 +3,9 @@
 Order of the files:
 
 \n1 - Import
+
 \n2 - Main functions
+
 \n3 - Contenu code + envoi mail
 
 The purpose of our project is to scrap all bike offers costing less than 150 € from the French selling website www.paruvendu.fr .
