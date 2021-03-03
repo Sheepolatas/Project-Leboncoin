@@ -1,0 +1,51 @@
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0"}
+token ='https://www.paruvendu.fr/annonces/velo/strasbourg/?p='
+
+
+def get_pages(token, nb):    
+    pages = []
+    for i in range(1,nb+1):
+        j = token + str(i)
+        pages.append(j)
+    return pages
+
+def get_all_data(pages):
+    titres=[]
+    prix=[]
+    liens=[]
+    for nb_p in range(len(pages)):
+        response=requests.get(pages[nb_p])
+        soup=bs4.BeautifulSoup(response.text,'html.parser')
+        a_box=soup.find_all("a",{"class":"globann"})
+        p_box=soup.find_all("div",{"class":"debarras-priceannonce"})
+        time.sleep(random.randrange(1,5))
+        for i in range(len(a_box)):
+                titres.append(a_box[i]['title'])
+                prix.append(p_box[i].get_text().strip())
+                liens.append(a_box[i]['href'])
+    table=pd.DataFrame({"Titres":titres,"Prix":prix,"Liens":liens})
+    Table=table.to_csv()
+    return table
+
+def get_data_filtered(table):
+    titres_f=[]
+    prix_f=[]
+    position=[]
+    compteur=0
+    for i in range(len(table)):
+        if prix[i]=='':
+            i=i+1
+        elif int(prix[i])<=100:
+            if re.match(r"^v.lo.",str(titres[i].lower())) or re.match(r"^vtt",str(titres[i].lower())) or re.match(r"^vend. v.lo.",str(titres[i].lower())) or re.match(r"^vend. vtt",str(titres[i].lower())):
+                compteur=compteur+1
+                position.append(i)
+
+    titres_f=[titres[i] for i in position]
+    prix_f=[prix[i] for i in position]
+    liens_f=[liens[i] for i in position]
+    table_f=pd.DataFrame({"Titres":titres_f,"Prix":prix_f,"Liens":liens_f})
+    return table_f
+
+
+
+pages = get_pages(token,10)
