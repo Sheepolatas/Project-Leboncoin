@@ -52,8 +52,7 @@ def envoi_mail(table_f):
     msg = MIMEMultipart()
     msg['Subject'] = "2e code"
     msg['From'] = 'miaou.test01@gmail.com'
-
-
+    
     html = """\
     <html>
       <head></head>
