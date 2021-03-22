@@ -24,39 +24,11 @@ table_f=get_data_filtered(table)
 table_f
 
 
+while True:
+    table=get_all_data(pages)
+    table_f=get_data_filtered(table)
+    envoi_mail(table_f)
+    print('Table sent.')
+    time.sleep(86400)
+    
 
-
-######## Sending this 2nd Data Frame in a mail:
-
-##ENVOI DE MAIL
-
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-#Envoi d'un mail automatisé
-
-msg = MIMEMultipart()
-msg['From'] = 'miaou.test01@gmail.com'
-msg['To'] = 'miaou.test01@gmail.com'
-msg['Subject'] = 'Nouvelle annonce de vélo' 
-
-message = 'Bonjour. Il y a nouveau(x) vélo(s)',get_data_filtered(table)
-html = """\
-<html>
-  <head></head>
-  <body>
-    {0}
-  </body>
-</html>
-""".format(table_f.to_html())
-part1 = MIMEText(html, 'html')
-msg.attach(part1)
-
-mailserver = smtplib.SMTP('smtp.gmail.com', 587)
-mailserver.ehlo()
-mailserver.starttls()
-mailserver.ehlo()
-mailserver.login('miaou.test01@gmail.com', '#testing0')
-mailserver.sendmail('miaou.test01@gmail.com','yass.ramil67@gmail.com', msg.as_string())
-mailserver.quit()
