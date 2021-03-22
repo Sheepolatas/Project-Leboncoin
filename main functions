@@ -45,7 +45,34 @@ def get_data_filtered(table):
     liens_f=[liens[i] for i in position]
     table_f=pd.DataFrame({"Titres":titres_f,"Prix":prix_f,"Liens":liens_f})
     return table_f
+    
+def envoi_mail(table_f):
+    recipients = ['miaou.test01@gmail.com','yass.ramil67@gmail.com'] 
+    emaillist = [elem.strip().split(',') for elem in recipients]
+    msg = MIMEMultipart()
+    msg['Subject'] = "2e code"
+    msg['From'] = 'miaou.test01@gmail.com'
 
+
+    html = """\
+    <html>
+      <head></head>
+      <body>
+        {0}
+      </body>
+    </html>
+    """.format(table_f.to_html())
+    message = 'Bonjour. Il y a des nouveaux vélos à checker'
+    part1 = MIMEText(html, 'html')
+    msg.attach(part1)
+    mailserver = smtplib.SMTP('smtp.gmail.com', 587)
+    mailserver.ehlo()
+    mailserver.starttls()
+    mailserver.ehlo()
+    mailserver.login('miaou.test01@gmail.com', '#testing0')
+    mailserver.sendmail('miaou.test01@gmail.com','yass.ramil67@gmail.com', msg.as_string())
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.sendmail(msg['From'], emaillist , msg.as_string())
 
 
 pages = get_pages(token,10)
